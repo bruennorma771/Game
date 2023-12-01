@@ -1,0 +1,76 @@
+import random
+
+class Player:
+    def __init__(self, name):
+        self.name = name
+        self.health = 100
+        self.hunger = 50
+
+    def is_alive(self):
+        return self.health > 0 and self.hunger > 0
+
+    def status(self):
+        return f"{self.name}'s Status - Health: {self.health}, Hunger: {self.hunger}"
+
+class SurvivalGame:
+    def __init__(self):
+        self.player = None
+
+    def start(self):
+        print("Welcome to Survival in Nature!")
+        player_name = input("Enter your name: ")
+        self.player = Player(player_name)
+        print(f"Hello, {self.player.name}! Your adventure begins.")
+
+        while self.player.is_alive():
+            self.show_options()
+            choice = input("Enter your choice: ")
+            self.handle_choice(choice)
+
+        print("Game over. You didn't survive!")
+
+    def show_options(self):
+        print("\nOptions:")
+        print("1. Gather food")
+        print("2. Rest")
+        print("3. Explore")
+        print("4. Quit")
+
+    def handle_choice(self, choice):
+        if choice == "1":
+            self.gather_food()
+        elif choice == "2":
+            self.rest()
+        elif choice == "3":
+            self.explore()
+        elif choice == "4":
+            self.quit_game()
+        else:
+            print("Invalid choice. Try again.")
+
+    def gather_food(self):
+        food_collected = random.randint(5, 15)
+        self.player.hunger += food_collected
+        print(f"You gathered {food_collected} units of food. Current Hunger: {self.player.hunger}")
+
+    def rest(self):
+        rest_amount = random.randint(10, 25)
+        self.player.health += rest_amount
+        print(f"You rested and regained {rest_amount} health. Current Health: {self.player.health}")
+
+    def explore(self):
+        danger = random.randint(0, 1)
+        if danger == 1:
+            damage = random.randint(10, 30)
+            self.player.health -= damage
+            print(f"You encountered danger and took {damage} damage. Current Health: {self.player.health}")
+        else:
+            print("You explored the area and found nothing dangerous.")
+
+    def quit_game(self):
+        print("Quitting the game.")
+        self.player.health = 0  # Set health to 0 to end the game
+
+if __name__ == "__main__":
+    game = SurvivalGame()
+    game.start()
